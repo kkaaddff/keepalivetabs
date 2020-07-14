@@ -10,10 +10,18 @@ import {
   VideoCameraOutlined,
 } from '@ant-design/icons';
 import React from 'react';
-
+import { history } from 'umi';
 const { Header, Content, Sider } = Layout;
 
 export default (props: any) => {
+  const onMenuChange = (params: any) => {
+    history.push({
+      pathname: '/A',
+      query: {
+        text: params.key,
+      },
+    });
+  };
   return (
     <Layout>
       <Sider
@@ -24,7 +32,7 @@ export default (props: any) => {
           left: 0,
         }}
       >
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
+        <Menu theme="dark" mode="inline" onClick={onMenuChange}>
           <Menu.Item key="1" icon={<UserOutlined />}>
             nav 1
           </Menu.Item>
