@@ -17,7 +17,7 @@ export default (props: any) => {
       <Input
         value={
           //@ts-ignore
-          __location.query.text
+          'a4' + __location.query.text
         }
       />
     </div>

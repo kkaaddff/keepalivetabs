@@ -11,6 +11,7 @@ import {
 } from '@ant-design/icons';
 import React from 'react';
 import { history } from 'umi';
+import Tabs from './components/tabs';
 const { Header, Content, Sider } = Layout;
 
 export default (props: any) => {
@@ -62,7 +63,7 @@ export default (props: any) => {
       <Layout className="site-layout" style={{ marginLeft: 200 }}>
         <Header className="site-layout-background" style={{ padding: 0 }} />
         <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-          {props.children}
+          <Tabs>{props.children}</Tabs>
         </Content>
       </Layout>
     </Layout>
