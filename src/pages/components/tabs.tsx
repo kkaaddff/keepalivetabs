@@ -28,9 +28,7 @@ class CustomTabs extends React.Component {
       React.Children.forEach(props.children.props.children, child => {
         if (match == null && React.isValidElement(child)) {
           element = child;
-
           const path = child.props.path || child.props.from;
-
           match = path
             ? matchPath(location.pathname, { ...child.props, path })
             : false;
@@ -40,7 +38,7 @@ class CustomTabs extends React.Component {
       content = match
         ? React.cloneElement(element, { location, computedMatch: match })
         : null;
-      debugger;
+
       return {
         panes: [
           ...state.panes,
@@ -111,4 +109,5 @@ class CustomTabs extends React.Component {
     );
   }
 }
+
 export default CustomTabs;

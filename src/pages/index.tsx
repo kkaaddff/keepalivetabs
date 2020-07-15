@@ -62,7 +62,7 @@ export default (props: any) => {
       </Sider>
       <Layout className="site-layout" style={{ marginLeft: 200 }}>
         <Header className="site-layout-background" style={{ padding: 0 }} />
-        <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+        <Content className="site-content-background">
           <Tabs>{props.children}</Tabs>
         </Content>
       </Layout>
