@@ -14,7 +14,7 @@ export default (props: any) => {
 
   return (
     <div>
-      <Input value={'a3' + __location.query.text} />
+      <Input defaultValue={'a3'} />
     </div>
   );
 };

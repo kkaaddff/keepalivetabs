@@ -1,11 +1,10 @@
 import { Tabs } from 'antd';
 import React from 'react';
+import matchPath from '@/utils/matchPath';
 
 const { TabPane } = Tabs;
 
-const initialPanes = [
-  { title: 'Tab 1', content: 'Content of Tab 1', key: '1' },
-];
+const initialPanes = [{ title: '首页', content: '这是首页', key: '1' }];
 
 class CustomTabs extends React.Component {
   newTabIndex = 0;
@@ -17,15 +16,44 @@ class CustomTabs extends React.Component {
   state = {
     activeKey: initialPanes[0].key,
     panes: initialPanes,
+    paneKeys: [],
   };
 
   static getDerivedStateFromProps(props: any, state: any) {
-    if (props.editInfo.id !== state.editInfo.id) {
+    if (!state.paneKeys.includes(location.pathname)) {
+      let element: any = undefined,
+        match: any = null,
+        content: any = null;
+
+      React.Children.forEach(props.children.props.children, child => {
+        if (match == null && React.isValidElement(child)) {
+          element = child;
+
+          const path = child.props.path || child.props.from;
+
+          match = path
+            ? matchPath(location.pathname, { ...child.props, path })
+            : false;
+        }
+      });
+
+      content = match
+        ? React.cloneElement(element, { location, computedMatch: match })
+        : null;
+      debugger;
       return {
-        editInfo: props.editInfo,
+        panes: [
+          ...state.panes,
+          {
+            title: location.pathname,
+            key: location.pathname,
+            content,
+          },
+        ],
+        paneKeys: [...state.paneKeys, location.pathname],
+        activeKey: location.pathname,
       };
     }
-
     return null;
   }
 
@@ -37,20 +65,7 @@ class CustomTabs extends React.Component {
     this[action](targetKey);
   };
 
-  add = () => {
-    const { panes } = this.state;
-    const activeKey = `newTab${this.newTabIndex++}`;
-    const newPanes = [...panes];
-    newPanes.push({
-      title: 'New Tab',
-      content: 'Content of new Tab',
-      key: activeKey,
-    });
-    this.setState({
-      panes: newPanes,
-      activeKey,
-    });
-  };
+  add = () => {};
 
   remove = (targetKey: string) => {
     const { panes, activeKey } = this.state;
@@ -88,7 +103,7 @@ class CustomTabs extends React.Component {
         hideAdd
       >
         {panes.map(pane => (
-          <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
+          <TabPane tab={pane.title} key={pane.key}>
             {pane.content}
           </TabPane>
         ))}
