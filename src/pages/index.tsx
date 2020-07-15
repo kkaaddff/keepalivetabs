@@ -17,7 +17,7 @@ const { Header, Content, Sider } = Layout;
 export default (props: any) => {
   const onMenuChange = (params: any) => {
     history.push({
-      pathname: '/A',
+      pathname: `/a${params.key}`,
       query: {
         text: params.key,
       },

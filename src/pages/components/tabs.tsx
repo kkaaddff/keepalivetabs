@@ -5,22 +5,29 @@ const { TabPane } = Tabs;
 
 const initialPanes = [
   { title: 'Tab 1', content: 'Content of Tab 1', key: '1' },
-  { title: 'Tab 2', content: 'Content of Tab 2', key: '2' },
-  {
-    title: 'Tab 3',
-    content: 'Content of Tab 3',
-    key: '3',
-    closable: false,
-  },
 ];
 
 class CustomTabs extends React.Component {
   newTabIndex = 0;
 
+  constructor(props: Readonly<{}>) {
+    super(props);
+  }
+
   state = {
     activeKey: initialPanes[0].key,
     panes: initialPanes,
   };
+
+  static getDerivedStateFromProps(props: any, state: any) {
+    if (props.editInfo.id !== state.editInfo.id) {
+      return {
+        editInfo: props.editInfo,
+      };
+    }
+
+    return null;
+  }
 
   onChange = (activeKey: any) => {
     this.setState({ activeKey });
@@ -49,11 +56,13 @@ class CustomTabs extends React.Component {
     const { panes, activeKey } = this.state;
     let newActiveKey = activeKey;
     let lastIndex = 0;
+
     panes.forEach((pane, i) => {
       if (pane.key === targetKey) {
         lastIndex = i - 1;
       }
     });
+
     const newPanes = panes.filter(pane => pane.key !== targetKey);
     if (newPanes.length && newActiveKey === targetKey) {
       if (lastIndex >= 0) {
@@ -76,6 +85,7 @@ class CustomTabs extends React.Component {
         onChange={this.onChange}
         activeKey={activeKey}
         onEdit={this.onEdit}
+        hideAdd
       >
         {panes.map(pane => (
           <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>

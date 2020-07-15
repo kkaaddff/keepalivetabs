@@ -4,13 +4,15 @@ import { useLocation } from 'umi';
 
 export default (props: any) => {
   const __location = useLocation();
-  // const [state, setState] = useState('');
-  // useEffect(() => {
-  //   console.log('object', __location.query.text);
-  //   //@ts-ignore
-  //   setState(__location.query.text);
-  //   //@ts-ignore
-  // }, [__location.query.text]);
+
+  useEffect(() => {
+    //@ts-ignore
+    console.log(__location.query.text + 'init');
+    return () => {
+      //@ts-ignore
+      console.log(__location.query.text + 'cleanup');
+    };
+  }, []);
 
   return (
     <div>
