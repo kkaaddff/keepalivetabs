@@ -9,12 +9,17 @@ import {
   UploadOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons';
-import React from 'react';
+import React, { useState } from 'react';
 import { history } from 'umi';
 import Tabs from './components/tabs';
 const { Header, Content, Sider } = Layout;
+export const TabsContext = React.createContext({
+  tabText: '',
+  changeTabText: (value: string) => {},
+});
 
 export default (props: any) => {
+  const [tabText, setTabText] = useState('tabs');
   const onMenuChange = (params: any) => {
     history.push({
       pathname: `/a${params.key}`,
@@ -25,47 +30,55 @@ export default (props: any) => {
   };
   return (
     <Layout>
-      <Sider
-        style={{
-          overflow: 'auto',
-          height: '100vh',
-          position: 'fixed',
-          left: 0,
+      <TabsContext.Provider
+        value={{
+          tabText,
+          changeTabText: setTabText as any,
         }}
       >
-        <Menu theme="dark" mode="inline" onClick={onMenuChange}>
-          <Menu.Item key="1" icon={<UserOutlined />}>
-            nav 1
-          </Menu.Item>
-          <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-            nav 2
-          </Menu.Item>
-          <Menu.Item key="3" icon={<UploadOutlined />}>
-            nav 3
-          </Menu.Item>
-          <Menu.Item key="4" icon={<BarChartOutlined />}>
-            nav 4
-          </Menu.Item>
-          <Menu.Item key="5" icon={<CloudOutlined />}>
-            nav 5
-          </Menu.Item>
-          <Menu.Item key="6" icon={<AppstoreOutlined />}>
-            nav 6
-          </Menu.Item>
-          <Menu.Item key="7" icon={<TeamOutlined />}>
-            nav 7
-          </Menu.Item>
-          <Menu.Item key="8" icon={<ShopOutlined />}>
-            nav 8
-          </Menu.Item>
-        </Menu>
-      </Sider>
-      <Layout className="site-layout" style={{ marginLeft: 200 }}>
-        <Header className="site-layout-background" style={{ padding: 0 }} />
-        <Content className="site-content-background">
-          <Tabs>{props.children}</Tabs>
-        </Content>
-      </Layout>
+        <Sider
+          style={{
+            overflow: 'auto',
+            height: '100vh',
+            position: 'fixed',
+            left: 0,
+          }}
+        >
+          <Menu theme="dark" mode="inline" onClick={onMenuChange}>
+            <Menu.Item key="1" icon={<UserOutlined />}>
+              nav 1
+            </Menu.Item>
+            <Menu.Item key="2" icon={<VideoCameraOutlined />}>
+              nav 2
+            </Menu.Item>
+            <Menu.Item key="3" icon={<UploadOutlined />}>
+              nav 3
+            </Menu.Item>
+            <Menu.Item key="4" icon={<BarChartOutlined />}>
+              nav 4
+            </Menu.Item>
+            <Menu.Item key="5" icon={<CloudOutlined />}>
+              nav 5
+            </Menu.Item>
+            <Menu.Item key="6" icon={<AppstoreOutlined />}>
+              nav 6
+            </Menu.Item>
+            <Menu.Item key="7" icon={<TeamOutlined />}>
+              nav 7
+            </Menu.Item>
+            <Menu.Item key="8" icon={<ShopOutlined />}>
+              nav 8
+            </Menu.Item>
+          </Menu>
+        </Sider>
+        <Layout className="site-layout" style={{ marginLeft: 200 }}>
+          <Header className="site-layout-background" style={{ padding: 0 }} />
+          <Content className="site-content-background">
+            <div>这是输入的值{tabText}</div>
+            <Tabs>{props.children}</Tabs>
+          </Content>
+        </Layout>
+      </TabsContext.Provider>
     </Layout>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Input } from 'antd';
 import { useLocation } from 'umi';
+import CustomInput from './a7Input';
+import { TabsContext } from '../index';
 
 export default (props: any) => {
   const __location = useLocation();
@@ -13,10 +14,14 @@ export default (props: any) => {
       console.log(__location.query.text + 'cleanup');
     };
   }, []);
-
+  console.log('a7 render');
   return (
     <div>
-      <Input defaultValue={'a7'} />
+      <TabsContext.Consumer>
+        {({ tabText }) => {
+          return <CustomInput tabText={tabText}></CustomInput>;
+        }}
+      </TabsContext.Consumer>
     </div>
   );
 };

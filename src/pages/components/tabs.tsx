@@ -6,7 +6,7 @@ const { TabPane } = Tabs;
 
 const initialPanes = [{ title: '首页', content: '这是首页', key: '1' }];
 
-class CustomTabs extends React.Component {
+class CustomTabs extends React.Component<any> {
   newTabIndex = 0;
 
   constructor(props: Readonly<{}>) {
@@ -28,9 +28,11 @@ class CustomTabs extends React.Component {
       React.Children.forEach(props.children.props.children, child => {
         if (match == null && React.isValidElement(child)) {
           element = child;
+          // @ts-ignore
           const path = child.props.path || child.props.from;
           match = path
-            ? matchPath(location.pathname, { ...child.props, path })
+            ? // @ts-ignore
+              matchPath(location.pathname, { ...child.props, path })
             : false;
         }
       });

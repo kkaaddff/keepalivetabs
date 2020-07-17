@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Input } from 'antd';
 import { useLocation } from 'umi';
+import { TabsContext } from '..';
 
 export default (props: any) => {
   const __location = useLocation();
@@ -16,7 +17,19 @@ export default (props: any) => {
 
   return (
     <div>
-      <Input defaultValue={'a8'} />
+      <TabsContext.Consumer>
+        {({ changeTabText, tabText }) => {
+          return (
+            <Input
+              value={'a8' + tabText}
+              onChange={e => {
+                const { value } = e.target;
+                changeTabText(value);
+              }}
+            />
+          );
+        }}
+      </TabsContext.Consumer>
     </div>
   );
 };
