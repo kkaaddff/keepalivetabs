@@ -1,4 +1,4 @@
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Input } from 'antd';
 import {
   AppstoreOutlined,
   BarChartOutlined,
@@ -75,7 +75,20 @@ export default (props: any) => {
           <Header className="site-layout-background" style={{ padding: 0 }} />
           <Content className="site-content-background">
             <div>这是输入的值{tabText}</div>
-            <Tabs>{props.children}</Tabs>
+            <TabsContext.Consumer>
+              {({ changeTabText, tabText }) => {
+                return (
+                  <Input
+                    value={tabText}
+                    onChange={e => {
+                      const { value } = e.target;
+                      changeTabText(value);
+                    }}
+                  />
+                );
+              }}
+            </TabsContext.Consumer>
+            <Tabs>{props.children}</Tabs>;
           </Content>
         </Layout>
       </TabsContext.Provider>
